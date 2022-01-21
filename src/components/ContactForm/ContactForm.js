@@ -1,8 +1,10 @@
-// import { useLocaleStorage } from '../../hooks/useLocaleStorage';
-// import { useDispatch } from 'react-redux';
-// import contactsActions from '../../redux/contacts/contacts-actions';
-import { useCreateContactMutation } from '../../redux/contacts/contactSlice';
-// import { nanoid } from 'nanoid';
+import {
+  useCreateContactMutation,
+  useFetchContactsQuery,
+} from '../../redux/contacts';
+import toastError from '../../helpers/toastWarn';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import s from './ContactForm.module.css';
 import { ImUserPlus } from 'react-icons/im';
 import { useState } from 'react';
@@ -10,8 +12,8 @@ import { useState } from 'react';
 export default function ContactForm() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  // const dispatch = useDispatch();
   const [createContact] = useCreateContactMutation();
+  const { data: contacts } = useFetchContactsQuery();
 
   const hundleChange = e => {
     const { name, value } = e.currentTarget;
@@ -31,27 +33,46 @@ export default function ContactForm() {
   };
 
   const hundleSubmit = async e => {
-    // console.log('event', e.currentTarget.elements.phone.required);
+    e.preventDefault();
+
     const contactContent = {
       name,
       phone,
     };
-    console.log('addContact', contactContent);
-    e.preventDefault();
+
+    const isContactNameInArray = contacts.find(
+      contact => contact.name === contactContent.name,
+    );
+
+    const isContactNumberInArray = contacts.find(
+      contact => contact.phone === contactContent.phone,
+    );
+
+    if (isContactNameInArray) {
+      return toastError(name);
+    }
+
+    if (isContactNumberInArray) {
+      return toastError(phone);
+    }
+
     createContact(contactContent);
-    // const contactContent = { name, phone };
-    // createContact(contactContent);
-    // e.currentTarget.reset();
-    // e.preventDefault();
-    // const contact = { id: nanoid(), name, number };
-    // dispatch(contactsActions.addContact(contact));
-    // reset();
+    toast('🦄 Ваш контакт успешно добавлен!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    reset();
   };
 
-  // const reset = () => {
-  //   setName('');
-  //   setPhone('');
-  // };
+  const reset = () => {
+    setName('');
+    setPhone('');
+  };
 
   return (
     <form onSubmit={hundleSubmit}>

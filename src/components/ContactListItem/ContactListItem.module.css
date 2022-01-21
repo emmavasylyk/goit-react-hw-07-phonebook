@@ -1,12 +1,18 @@
-.ContactListItem {
+.Item {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.ContactListItem:not(:last-child) {
+
+.Item:not(:last-child) {
   margin-bottom: 10px;
 }
-.ContactListButton {
+
+.ButtonIcon {
+  margin-right: 5px;
+}
+
+.Button {
   display: flex;
   align-items: center;
   padding: 9px 15px;
@@ -15,8 +21,9 @@
   background: #e14444;
   color: white;
 }
-.ContactListButton:hover,
-.ContactListButton:focus {
+
+.Button:hover,
+.Button:focus {
   background: #a12e2e;
   box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 2px 5.3px rgb(0 0 0 / 5%),
     0 2px 10px rgb(0 0 0 / 6%), 0 2px 17.9px rgb(0 0 0 / 7%),
@@ -24,7 +31,4 @@
 }
 .ContactList {
   font-weight: 500;
-}
-.ContactListButtonIcon {
-  margin-right: 5px;
 }

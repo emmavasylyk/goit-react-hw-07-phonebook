@@ -1,15 +1,20 @@
-import { useDeleteContactMutation } from '../../redux/contacts/contactSlice';
-// import { Spinner } from 'components/Spinner/Spinner';
+import { useDeleteContactMutation } from '../../redux/contacts';
+import { ImBin } from 'react-icons/im';
+import s from './ContactListItem.module.css';
 
 export const ContactListItem = ({ id, name, phone }) => {
-  //   console.log('name', name);
   const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
 
   return (
-    <li>
+    <li className={s.Item}>
+      <p className={s.ContactList}></p>
       {name}: {phone}{' '}
-      <button onClick={() => deleteContact(id)} disabled={isDeleting}>
-        {/* {isDeleting && <Spinner size={12} />} */}
+      <button
+        onClick={() => deleteContact(id)}
+        disabled={isDeleting}
+        className={s.Button}
+      >
+        <ImBin className={s.ButtonIcon} />
         Delete
       </button>
     </li>
