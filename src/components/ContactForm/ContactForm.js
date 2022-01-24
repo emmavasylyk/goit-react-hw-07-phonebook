@@ -41,7 +41,8 @@ export default function ContactForm() {
     };
 
     const isContactNameInArray = contacts.find(
-      contact => contact.name === contactContent.name,
+      contact =>
+        contact.name.toLowerCase() === contactContent.name.toLowerCase(),
     );
 
     const isContactNumberInArray = contacts.find(
@@ -57,7 +58,7 @@ export default function ContactForm() {
     }
 
     createContact(contactContent);
-    toast('🦄 Ваш контакт успешно добавлен!', {
+    toast.success('🦄 Ваш контакт успешно добавлен!', {
       position: 'top-right',
       autoClose: 5000,
       hideProgressBar: false,
